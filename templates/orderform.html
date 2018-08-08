@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class ="col-md-4">
+        </div>
+        <div class ="col-md-4">
+            <h1> Order Form</h1>
+            <form>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" class="form-control" name="fullname" required="true">
+                </div>
+                <div class="form-group">
+                    <label>Contact Number:</label>
+                    <input type="number" class="form-control" name="number" required="true>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Date:</label>
+                    <input type="date" class="form-control" name="date" required="true>
+                    </div>
+                <div class="form-group">
+                    <label>Delivery time:</label>
+                    <input type="time" class="form-control" name="time" required="true>
+                    <span class="help-block">Please set time atleast 2 hours before your event.</span>
+                </div>
+                <div class="form-group">
+                    <label for="sel1">Cake Flavour:</label>
+                    <select class="form-control" id="sel1">
+                        <option>Chocolate Fudge</option>
+                        <option>Plain Cheese</option>
+                        <option>Chocolate Chip</option>
+                        <option>Nutella</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cake Image 1:</label>
+                    <input type="file" class="form-control" name="image1" required="true">
+                </div>
+                <div class="form-group">
+                    <label>Cake Image 2:</label>
+                    <input type="file" class="form-control" name="image2">
+                </div>
+                <button type="submit" class="btn btn-default">Place Order</button>
+            </form>
+        </div>
+        <div class ="col-md-4"></div>
+    </div>
+</div>
+
+</body>
+</html>

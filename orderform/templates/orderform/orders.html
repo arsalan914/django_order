@@ -1,0 +1,112 @@
+{% extends 'orderform/base.html' %}
+
+{% block title%}
+CakeMonster Order List
+{% endblock%}
+
+{% block head %}
+    <script>
+
+$(document).on("click", ".xyz", function () {
+     var myBookId = $(this).data('id');
+        console.log(myBookId);
+ {#$(".modal-body #bookId").val( myBookId );#}
+     // As pointed out in comments,
+     // it is superfluous to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+});
+
+    </script>
+{% endblock %}
+
+{% block body%}
+<div class="container">
+    <div class="row well">
+        <div class ="col-md-12">
+            <h4><a href="{% url 'orderform:listorders'  %}">Show All Orders</a></h4>
+
+            <form class="form-inline" action="" method="GET" >
+                <div class="form-group">
+                  <label for="date">Start Date:</label>
+                  <input type="date" class="form-control" placeholder="Enter start date" name="startdate">
+                </div>
+                <div class="form-group">
+                  <label for="date">End Date:</label>
+                  <input type="date" class="form-control" placeholder="Enter end date" name="enddate">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+{#        <div class ="col-md-1">#}
+{#        </div>#}
+        <div class ="col-md-12">
+            <div class="table-responsive">
+                <h3>Order List</h3>
+                    {% if request.GET.startdate != "" and request.GET.startdate != None %}
+                        <p>Start date: {{ request.GET.startdate }}</p>
+                    {% endif %}
+                    {% if request.GET.enddate != "" and request.GET.enddate != None %}
+                        <p>End Date:{{ request.GET.enddate }}</p>
+                    {% endif %}
+                    {% if all_orders %}
+                        <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Number</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Image</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for orders in all_orders %}
+                                    <tr>
+                                        <td>{{ orders.id }}</td>
+                                        <td>{{ orders.fullname }}</td>
+                                        <td>{{ orders.contactnumber }}</td>
+                                        <td>{{ orders.date }}</td>
+                                        <td>{{ orders.time }}</td>
+                                        <td>    <img height="60" width="60" src="{{orders.image1.url}}"></td>
+                                        <td> {{ orders.get_status_display }} <br/><a href="{% url 'orderform:updateorder' orders.id %}">Update</a>
+                                            <button type="button" class="btn btn-info btn-lg xyz" data-toggle="modal" data-id="{{ orders.id }}" data-target="#myModal" >Update Status</button>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <p>No Orders</p>
+                    {% endif  %}
+            </div>
+        </div>
+{#        <div class ="col-md-1">#}
+{#        </div>#}
+
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
