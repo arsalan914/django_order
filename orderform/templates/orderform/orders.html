@@ -10,10 +10,18 @@ CakeMonster Order List
 $(document).on("click", ".xyz", function () {
      var myBookId = $(this).data('id');
         console.log(myBookId);
+        var url_mask = "{% url 'orderform:updateorder' 12345 %}".replace(/12345/, myBookId);
  {#$(".modal-body #bookId").val( myBookId );#}
      // As pointed out in comments,
      // it is superfluous to have to manually call the modal.
-     // $('#addBookDialog').modal('show');
+        $.ajax({url: url_mask, success: function(result){
+            console.log(result);
+            $(".modal-body").html(result);
+
+            $('#orderform').attr('action', url_mask);
+
+        }});
+      {#$('.modal-body .form-group #orderid').val(myBookId);#}
 });
 
     </script>
@@ -100,7 +108,21 @@ $(document).on("click", ".xyz", function () {
         <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+            <form>
+                <div class="form-group">
+                    <input type="hidden" class="form-control" name="orderid" id="orderid" value=""  required="true">
+                </div>
+                <div class="form-group">
+                    <label for="sel1">Cake Flavour:</label>
+                    <select class="form-control" id="sel1">
+                        <option>Chocolate Fudge</option>
+                        <option>Plain Cheese</option>
+                        <option>Chocolate Chip</option>
+                        <option>Nutella</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-default">Update Order Status</button>
+            </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
