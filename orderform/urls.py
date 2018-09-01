@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from . import views
-from .views import OrderCreate,ListOrders,OrderUpdate
+from .views import *
 
 
 app_name = "orderform"
@@ -16,6 +16,13 @@ urlpatterns = [
     # /orderform/listorders
     url(r'^listorders/$', ListOrders.as_view(), name='listorders'),
 
+    # /orderform/cakemonsterview
+    url(r'^cakemonsterview/$', views.cakemonster, name='cakemonsterview'),
+
+    # /orderform/2/update
     url(r'^(?P<pk>[0-9]+)/update/$', OrderUpdate.as_view(), name="updateorder"),
+
+    # /orderform/2/statusupdate
+    url(r'^(?P<pk>[0-9]+)/statusupdate/$', StatusUpdate.as_view(), name="statusupdate"),
 
 ]

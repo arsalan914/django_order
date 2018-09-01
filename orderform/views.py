@@ -10,16 +10,20 @@ from django import forms
 from django.views import generic
 
 from django.contrib.admin import widgets
-
+import datetime
 
 # def orderform(request):
 #     return render(request, 'orderform.html')
 
+def cakemonster(request):
+     return render(request, 'orderform/cakemonster.html')
 
 class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['date'].label = "Delivery Date"
+        self.fields['time'].label = "Delivery Time"
         self.fields['date'].widget.input_type = "date"
         self.fields['time'].widget.input_type = "time"
         for field in self.fields.values():
@@ -27,7 +31,8 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = "__all__"
+        # fields = "__all__"
+        fields = ['fullname','date','time', 'contactnumber', 'flavor', 'image1', 'image2']
 
 class OrderCreate(CreateView):
     model = Order
@@ -42,6 +47,11 @@ class OrderUpdate(UpdateView):
     form_class = OrderForm
     model = Order
 
+class StatusUpdate(UpdateView):
+    model = Order
+    fields = ['status']
+    template_name = "orderform/statusupdate_form.html"
+
 class ListOrders(generic.ListView):
     template_name = "orderform/orders.html"
     context_object_name = 'all_orders'
@@ -55,6 +65,9 @@ class ListOrders(generic.ListView):
             print (start_date)
             print (end_date)
             return Order.objects.filter(date__range=[start_date, end_date]).order_by('-date','time')
+
+        #current date
+        # (datetime.datetime.now().date())
 
         return Order.objects.all().order_by('-date','time')
         # else:
