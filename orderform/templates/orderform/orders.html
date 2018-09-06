@@ -8,14 +8,24 @@ CakeMonster Order List
 {% block head %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
+<style>
+.btn {
+padding: 5px 5px !important;
+border-radius: 5px !important;
+text-transform: initial !important;
+}
+</style>
 <script>
 
 $(document).ready( function () {
     $('.table').DataTable({
-    "order": [[ 3, 'des' ], [ 4, 'des' ]]
+    "order": [[ 3, 'des' ], [ 4, 'des' ]],
+  "columnDefs": [
+    { className: "dt-center", "targets": [ 0,1,2,3,4,5,6 ] }
+                ]
     });
 } );
 
@@ -42,14 +52,9 @@ $(document).on("click", ".xyz", function () {
 
 {% block body%}
 <div class="container">
-    <div class="row well">
+    <div class="row well" style="text-align:center">
         <!--<div class ="col-md-12">-->
-            <div class ="col-md-3">
-                <form action="{% url 'orderform:listorders'  %}" method="GET" >
-                    <button type="submit" class="btn btn-default">Show All Orders</button>
-                </form>
-            </div>
-            <div class ="col-md-9">
+            <div class ="col-md-9" >
                 <form class="form-inline" action="" method="GET" >
                     <div class="form-group">
                       <label for="date">Start Date:</label>
@@ -59,7 +64,12 @@ $(document).on("click", ".xyz", function () {
                       <label for="date">End Date:</label>
                       <input type="date" class="form-control" placeholder="Enter end date" name="enddate">
                     </div>
-                    <button type="submit" class="btn btn-default">Search</button>
+                    <button type="submit" class="btn btn-default">&nbsp &nbsp &nbsp &nbsp &nbsp Search &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</button>
+                </form>
+            </div>
+            <div class ="col-md-3" style="margin-top:12px;">
+                <form action="{% url 'orderform:listorders'  %}" method="GET" >
+                    <button type="submit" class="btn btn-default">Show All Orders</button>
                 </form>
             </div>
         <!--</div>-->
@@ -69,7 +79,7 @@ $(document).on("click", ".xyz", function () {
 {#        </div>#}
         <div class ="col-md-12 well" >
             <div class="table-responsive">
-                <h3>Order List</h3>
+                <h3 style="text-align:center">Order List</h3>
                     {% if request.GET.startdate != "" and request.GET.startdate != None %}
                         <p>Start date: {{ request.GET.startdate }}</p>
                     {% endif %}
@@ -77,7 +87,7 @@ $(document).on("click", ".xyz", function () {
                         <p>End Date:{{ request.GET.enddate }}</p>
                     {% endif %}
                     {% if all_orders %}
-                        <table class="table table-striped">
+                        <table class="table table-striped" >
                             <thead>
                               <tr>
                                 <th>ID</th>
@@ -98,8 +108,11 @@ $(document).on("click", ".xyz", function () {
                                         <td>{{ orders.date }}</td>
                                         <td>{{ orders.time }}</td>
                                         <td>    <img height="60" width="60" src="{{orders.image1.url}}"></td>
-                                        <td> {{ orders.get_status_display }} <br/><a href="{% url 'orderform:updateorder' orders.id %}">Update</a>
+                                        <td>
+                                            {{ orders.get_status_display }} <br/>
                                             <button type="button" class="btn btn-info btn-lg xyz" data-toggle="modal" data-id="{{ orders.id }}" data-target="#myModal" >Update Status</button>
+                                            <!--<button class="btn btn-info btn-lg" onclick="window.location.href='{% url 'orderform:updateorder' orders.id %}'">Edit Order</button>-->
+                                            <!--<a href="{% url 'orderform:updateorder' orders.id %}" title="Edit Order"><i class="material-icons">&#xe22b;</i></a>-->
                                         </td>
 
                                     </tr>
@@ -123,9 +136,9 @@ $(document).on("click", ".xyz", function () {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title" style="text-align:center;">Update Status</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="text-align:center">
 {#            <form>#}
 {#                <div class="form-group">#}
 {#                    <input type="hidden" class="form-control" name="orderid" id="orderid" value=""  required="true">#}
@@ -143,7 +156,7 @@ $(document).on("click", ".xyz", function () {
 {#            </form>#}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
       </div>
     </div>
 

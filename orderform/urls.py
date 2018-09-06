@@ -26,7 +26,4 @@ urlpatterns = [
     # /orderform/2/statusupdate
     url(r'^(?P<pk>[0-9]+)/statusupdate/$', StatusUpdate.as_view(), name="statusupdate"),
 
-    # /orderform/datatables
-    url(r'^datatables/$', ListOrders2.as_view(), name="datatables"),
-
 ]
