@@ -15,6 +15,30 @@ import datetime
 # def orderform(request):
 #     return render(request, 'orderform.html')
 
+def datatables(request):
+    return render(request, 'orderform/listorders.html')
+
+class ListOrders2(generic.ListView):
+    template_name = "orderform/listorders.html"
+    context_object_name = 'all_orders'
+
+    def get_queryset(self):
+        start_date = self.request.GET.get('startdate')
+        end_date = self.request.GET.get('enddate')
+        # if self.request.user.is_authenticated():
+        if (start_date != "" and start_date != None and end_date != None and end_date!=""):
+            print ("\r\n\r\n\r\n\r\n\r\n")
+            print (start_date)
+            print (end_date)
+            return Order.objects.filter(date__range=[start_date, end_date]).order_by('-date','time')
+
+        #current date
+        # (datetime.datetime.now().date())
+
+        return Order.objects.all().order_by('-date','time')
+        # else:
+        #     return None
+
 def cakemonster(request):
      return render(request, 'orderform/cakemonster.html')
 

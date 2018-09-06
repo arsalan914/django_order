@@ -29,7 +29,6 @@ class Order(models.Model):
     time = models.TimeField()
     # flavor = models.CharField(max_length=300)
     flavor = models.IntegerField(default=0, choices=FLAVOR_VALUES)
-    x = models.FloatField(default=0)
     image1 = models.FileField(null=True,upload_to=user_directory_path)
     image2 = models.FileField(null=True,upload_to=user_directory_path)
     # image1 = models.FileField(null=True,upload_to='documents/%Y%m%d/')
