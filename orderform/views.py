@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import pyrebase
-
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from .models import  Order
 from django import forms
@@ -19,8 +19,18 @@ class OrderForm(forms.ModelForm):
         self.fields['time'].label = "Delivery Time"
         self.fields['date'].widget.input_type = "date"
         self.fields['time'].widget.input_type = "time"
+        self.fields['contactnumber'].widget.input_type = "text"
+        # print (self.fields.values())
+        # print (self.fields)
         for field in self.fields.values():
-            field.widget.attrs = {'class': 'form-control'}
+            # print (field.label)
+            if field.label == 'Contactnumber':
+                field.widget.attrs = {'class': 'form-control', 'placeholder': '0321-1234567', 'pattern' : '[0-9]{4}-[0-9]{7}'}
+            elif field.label == 'Delivery Date':
+                # field.widget.attrs = {'class': 'form-control', 'onchange': 'checkdate()'}
+                field.widget.attrs = {'class': 'form-control'}
+            else:
+                field.widget.attrs = {'class': 'form-control'}
 
     class Meta:
         model = Order
@@ -43,7 +53,14 @@ class OrderUpdate(UpdateView):
 class StatusUpdate(UpdateView):
     model = Order
     fields = ['status']
+    success_url = reverse_lazy('orderform:listorders')
     template_name = "orderform/statusupdate_form.html"
+
+
+    def get_success_url(self):
+        # can be used to presever query parameters
+        print (len(self.request.GET))
+        return self.success_url
 
 class ListOrders(generic.ListView):
     template_name = "orderform/orders.html"

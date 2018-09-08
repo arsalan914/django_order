@@ -4,20 +4,72 @@
 CakeMonster Order Form
 {% endblock%}
 
+{% block head %}
+<style>
+.form-control
+{
+margin:0px !important;
+height:30px !important;
+line-height:10px !important;
+}
+
+.margin-to-align
+{
+margin-left: 22px;
+}
+</style>
+<script>
+function checkdate() {
+   var selectedText = document.getElementById('id_date').value;
+   var selectedDate = new Date(selectedText);
+   var now = new Date();
+   console.log(selectedDate);
+   console.log(now);
+   console.log(now.getUTCDate());
+   console.log(now.getUTCMonth());
+   console.log(selectedDate.getUTCDate());
+   console.log(selectedDate.getUTCMonth());
+
+   if (selectedDate.getUTCFullYear() < now.getUTCFullYear() ||
+       (selectedDate.getUTCMonth() < now.getUTCMonth() && selectedDate.getUTCFullYear() == now.getUTCFullYear())||
+       ((selectedDate.getUTCDate() < now.getUTCDate()) && (selectedDate.getUTCMonth() == now.getUTCMonth()))
+   )
+   {
+    alert("Delivery Date must be in future");
+    document.getElementById('id_date').value = "";
+   }
+ }
+</script>
+
+{% endblock %}
+
 {% block body%}
 <div class="container">
+    {% if request.GET.posted == 'yes' %}
+        <div class="row">
+            <div class ="col-md-3">
+            </div>
+            <div class ="col-md-6 alert alert-success margin-to-align">
+                Order Posted Successfully.
+            </div>
+            <div class ="col-md-3">
+            </div>
+        </div>
+    {% endif %}
     <div class="row">
         <div class ="col-md-3">
         </div>
-        <div class ="col-md-6 well" style="margin-left: 22px">
+        <div class ="col-md-6 well margin-to-align" >
             <form   id="orderform" action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in form %}
-                    <div class="form-group">
-                        {{ field.errors }}
-                        <label class="control-label" style="text-align:left">{{ field.label_tag }}</label>
-                            {{ field }}
-                    </div>
+                    <!--<div class="form-group">-->
+                        {% if field.errors %}
+                        <div class="alert alert-danger"> {{ field.errors }} </div>
+                        {% endif %}
+                        <label class="control-label" style="text-align:left">{{ field.label }}</label>
+                        {{ field }}
+                    <!--</div>-->
                  {% endfor %}
                  <div class="col-md-4"></div>
                  <div class="col-md-4">

@@ -24,7 +24,7 @@ class Order(models.Model):
         (4, 'Strawberry Cheese'),
     )
     fullname = models.CharField(max_length=300)
-    contactnumber = models.BigIntegerField()
+    contactnumber = models.CharField(max_length=300)
     date = models.DateField()
     time = models.TimeField()
     # flavor = models.CharField(max_length=300)
@@ -36,5 +36,5 @@ class Order(models.Model):
     status = models.IntegerField(default=0, choices=STATUS_VALUES)
 
     def get_absolute_url(self):
-        print ("get abosilte url")
-        return "%s?posted=yes" % reverse('orderform:listorders')
+        print ("get abosilte url\r\n\r\n")
+        return "%s?posted=yes" % reverse('orderform:cakemonster')
